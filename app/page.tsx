@@ -6,6 +6,21 @@ import { ChevronRight, Star, Truck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Carousel from "@/app/components/carousel"
 
+interface Product {
+  title: string
+  description: string
+  image: string
+  price: string
+  rating: number
+}
+
+interface Testimonial {
+  name: string
+  role: string
+  image: string
+  quote: string
+}
+
 const heroImages = [
   {
     src: "https://images.unsplash.com/photo-1507136566006-cfc505b114fc?auto=format&fit=crop&q=80&w=2000",
@@ -19,6 +34,51 @@ const heroImages = [
     src: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?auto=format&fit=crop&q=80&w=2000",
     alt: "Premium car care products display"
   }
+]
+
+const featuredProducts: Product[] = [
+  {
+    title: "Maguiar's Ultimate Ceramic Coating",
+    description: "Professional-grade ceramic coating for long-lasting protection",
+    image: "https://picsum.photos/id/1071/600/400",
+    price: "$89.99",
+    rating: 5,
+  },
+  {
+    title: "Blue Coral Premium Wash & Wax",
+    description: "Deep clean and protect in one step",
+    image: "https://picsum.photos/id/1072/600/400",
+    price: "$24.99",
+    rating: 4,
+  },
+  {
+    title: "Maguiar's Wheel Cleaner",
+    description: "Safe and effective wheel cleaning solution",
+    image: "https://picsum.photos/id/1073/600/400",
+    price: "$19.99",
+    rating: 5,
+  },
+]
+
+const testimonials: Testimonial[] = [
+  {
+    name: "Alex Chen",
+    role: "Car Enthusiast",
+    image: "https://picsum.photos/id/1078/100/100",
+    quote: "The Maguiar's ceramic coating is absolutely amazing. My car has never looked better!",
+  },
+  {
+    name: "Sarah Johnson",
+    role: "Professional Detailer",
+    image: "https://picsum.photos/id/1079/100/100",
+    quote: "Blue Coral's products are my go-to for professional detailing. Consistent quality every time.",
+  },
+  {
+    name: "Michael Rodriguez",
+    role: "Weekend Warrior",
+    image: "https://picsum.photos/id/1080/100/100",
+    quote: "GotWaax has the best selection of car care products. Their customer service is top-notch!",
+  },
 ]
 
 export default function Home() {
@@ -76,29 +136,7 @@ export default function Home() {
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-12 mt-12">
-              {[
-                {
-                  title: "Maguiar's Ultimate Ceramic Coating",
-                  description: "Professional-grade ceramic coating for long-lasting protection",
-                  image: "https://picsum.photos/id/1071/600/400",
-                  price: "$89.99",
-                  rating: 5,
-                },
-                {
-                  title: "Blue Coral Premium Wash & Wax",
-                  description: "Deep clean and protect in one step",
-                  image: "https://picsum.photos/id/1072/600/400",
-                  price: "$24.99",
-                  rating: 4,
-                },
-                {
-                  title: "Maguiar's Wheel Cleaner",
-                  description: "Safe and effective wheel cleaning solution",
-                  image: "https://picsum.photos/id/1073/600/400",
-                  price: "$19.99",
-                  rating: 5,
-                },
-              ].map((product, index) => (
+              {featuredProducts.map((product, index) => (
                 <div key={index} className="flex flex-col rounded-lg border border-zinc-800 bg-zinc-900">
                   <div className="relative h-48 overflow-hidden rounded-t-lg">
                     <Image
@@ -106,6 +144,7 @@ export default function Home() {
                       alt={product.title}
                       fill
                       className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   </div>
                   <div className="flex flex-col h-full p-6">
@@ -114,11 +153,9 @@ export default function Home() {
                       <p className="text-gray-400">{product.description}</p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1">
-                          {Array(product.rating)
-                            .fill(null)
-                            .map((_, i) => (
-                              <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                            ))}
+                          {Array.from({ length: product.rating }).map((_, i) => (
+                            <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                          ))}
                         </div>
                         <span className="text-lg font-bold text-white">{product.price}</span>
                       </div>
@@ -150,26 +187,7 @@ export default function Home() {
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-12 mt-12">
-              {[
-                {
-                  name: "Alex Chen",
-                  role: "Car Enthusiast",
-                  image: "https://picsum.photos/id/1078/100/100",
-                  quote: "The Maguiar's ceramic coating is absolutely amazing. My car has never looked better!",
-                },
-                {
-                  name: "Sarah Johnson",
-                  role: "Professional Detailer",
-                  image: "https://picsum.photos/id/1079/100/100",
-                  quote: "Blue Coral's products are my go-to for professional detailing. Consistent quality every time.",
-                },
-                {
-                  name: "Michael Rodriguez",
-                  role: "Weekend Warrior",
-                  image: "https://picsum.photos/id/1080/100/100",
-                  quote: "GotWaax has the best selection of car care products. Their customer service is top-notch!",
-                },
-              ].map((testimonial, index) => (
+              {testimonials.map((testimonial, index) => (
                 <div key={index} className="flex flex-col rounded-lg border border-zinc-800 bg-zinc-900 p-6">
                   <div className="flex items-center gap-4">
                     <div className="h-12 w-12 overflow-hidden rounded-full">
@@ -179,6 +197,7 @@ export default function Home() {
                         width={48}
                         height={48}
                         className="h-full w-full object-cover"
+                        sizes="48px"
                       />
                     </div>
                     <div>
@@ -201,11 +220,13 @@ export default function Home() {
               <div className="w-20 h-1 bg-primary mx-auto"></div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div>
-                <img
+              <div className="relative h-[400px] w-full">
+                <Image
                   src="https://picsum.photos/id/1077/800/600"
                   alt="About GotWaax"
-                  className="rounded-lg shadow-xl"
+                  fill
+                  className="rounded-lg shadow-xl object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
               <div className="space-y-6">
